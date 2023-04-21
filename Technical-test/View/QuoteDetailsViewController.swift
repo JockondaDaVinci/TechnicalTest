@@ -127,7 +127,7 @@ class QuoteDetailsViewController: UIViewController {
     
     
     @objc func didPressFavoriteButton(_ sender:UIButton!) {
-        guard var quote = quote else { return }
+        guard let quote = quote else { return }
         
         if quote.isFavorite == true {
             dataManager.deleteFavorite(quote)

@@ -37,7 +37,9 @@ class QuotesListCell: UITableViewCell {
         lastLabel.text = quote.last
         currencyLabel.text = quote.currency
         readableLastChangePercentLabel.text = quote.readableLastChangePercent
-        readableLastChangePercentLabel.textColor = UIColor(named: quote.variationColor!) ?? .black
+        if let color = quote.variationColor {
+            readableLastChangePercentLabel.textColor = UIColor(named: color) ?? .black
+        }
         
         favoriteButton.isActive = quote.isFavorite ?? false
     }
@@ -97,6 +99,7 @@ private extension QuotesListCell {
         
         readableLastChangePercentLabel.font = .systemFont(ofSize: 24.0, weight: .medium)
         readableLastChangePercentLabel.textAlignment = .center
+        readableLastChangePercentLabel.textColor = .black
         
         favoriteButton.addTarget(self, action: #selector(onFavoriteAction(_:)), for: .touchUpInside)
     }

@@ -9,6 +9,7 @@ import UIKit
 
 class QuoteDetailsViewController: UIViewController {
     
+    private let dataManager = DataManager()
     private var quote:Quote? = nil
     
     let symbolLabel = UILabel()
@@ -17,9 +18,6 @@ class QuoteDetailsViewController: UIViewController {
     let currencyLabel = UILabel()
     let readableLastChangePercentLabel = UILabel()
     let favoriteButton = UIButton()
-    
-    
-    
     
     init(quote:Quote) {
         super.init(nibName: nil, bundle: nil)
@@ -65,7 +63,7 @@ class QuoteDetailsViewController: UIViewController {
         readableLastChangePercentLabel.layer.borderColor = UIColor.black.cgColor
         readableLastChangePercentLabel.font = .systemFont(ofSize: 30)
         
-        favoriteButton.setTitle("Add to favorites", for: .normal)
+        setButtonTitle()
         favoriteButton.layer.cornerRadius = 6
         favoriteButton.layer.masksToBounds = true
         favoriteButton.layer.borderWidth = 3
@@ -129,6 +127,21 @@ class QuoteDetailsViewController: UIViewController {
     
     
     @objc func didPressFavoriteButton(_ sender:UIButton!) {
-        // TODO
+        guard let quote = quote else { return }
+        
+        if quote.isFavorite == true {
+            dataManager.deleteFavorite(quote)
+        } else {
+            dataManager.addToFavorites(quote)
+        }
+        
+        self.quote?.isFavorite?.toggle()
+        setButtonTitle()
+    }
+    
+    private func setButtonTitle() {
+        let isFavorite = quote?.isFavorite ?? false
+        
+        favoriteButton.setTitle(!isFavorite ? "Add to favorites" : "Remove favorite", for: [])
     }
 }
